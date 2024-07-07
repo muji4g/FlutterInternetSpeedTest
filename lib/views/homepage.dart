@@ -47,9 +47,7 @@ class _HomePageState extends State<HomePage> {
                   horizontal: 10,
                 ),
                 child: IconButton(
-                    onPressed: () => isDark
-                        ? themeProvider.setLightScheme
-                        : themeProvider.setDarkScheme,
+                    onPressed: themeProvider.toggleTheme,
                     icon: Icon(
                       isDark ? Icons.light_mode : Icons.dark_mode,
                       color: Theme.of(context).colorScheme.secondary,

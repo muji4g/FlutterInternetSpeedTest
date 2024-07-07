@@ -21,16 +21,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = ThemeProvider();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'FlutterSpeed',
-      themeMode: themeProvider.themeMode,
-      theme:
-          ThemeData(useMaterial3: true, colorScheme: themeProvider.lightScheme),
-      darkTheme:
-          ThemeData(useMaterial3: true, colorScheme: themeProvider.darkScheme),
-      home: const HomePage(),
+    return Consumer(
+      builder: (context, ThemeProvider themeProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'FlutterSpeed',
+          themeMode: themeProvider.themeMode,
+          theme: ThemeData(
+              useMaterial3: true, colorScheme: themeProvider.lightScheme),
+          darkTheme: ThemeData(
+              useMaterial3: true, colorScheme: themeProvider.darkScheme),
+          home: const HomePage(),
+        );
+      },
     );
   }
 }
