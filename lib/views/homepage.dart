@@ -22,14 +22,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final ThemeProvider themeProvider = ThemeProvider();
-
     bool isDark =
         Theme.of(context).brightness == Brightness.light ? false : true;
     return Consumer<InternetspeedProvider>(
       builder: (context, InternetspeedProvider speedProvider, child) {
         bool isTesting = speedProvider.isTestComplete;
-        double value = speedProvider.downloadSpeed;
+        double downloadValue = speedProvider.downloadSpeed;
         return Scaffold(
           backgroundColor: Theme.of(context).colorScheme.surface,
           appBar: AppBar(
@@ -47,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                   horizontal: 10,
                 ),
                 child: IconButton(
-                    onPressed: themeProvider.toggleTheme,
+                    onPressed: Provider.of<ThemeProvider>(context).toggleTheme,
                     icon: Icon(
                       isDark ? Icons.light_mode : Icons.dark_mode,
                       color: Theme.of(context).colorScheme.secondary,
@@ -85,14 +83,14 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 18),
                       ),
                       SpeedGauge(
-                        val: value,
+                        val: downloadValue,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            value.toStringAsFixed(1),
+                            downloadValue.toStringAsFixed(1),
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                               fontSize: 32,
@@ -102,13 +100,7 @@ class _HomePageState extends State<HomePage> {
                             width: 12,
                           ),
                           Text(
-                            speedProvider.speedUnit.toString() ==
-                                    'SpeedUnit.mbps'
-                                ? 'Mbps'
-                                : speedProvider.speedUnit.toString() ==
-                                        'SpeedUnit.kbps'
-                                    ? 'Kbps'
-                                    : '--',
+                            speedProvider.speedUnit ?? '--',
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary,
                               fontSize: 32,
@@ -116,12 +108,30 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      Text(
-                        'isp : ${speedProvider.isp}',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.secondary,
-                          fontSize: 16,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'isp : ${speedProvider.isp}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 12,
+                          ),
+                          Text(
+                            'ip : ${speedProvider.ip}',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 22,
                       ),
                       Container(
                         width: isTesting ? 40 : 120,
@@ -148,7 +158,22 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                )
+                ),
+                ////////////////////////
+                ///UPLOAD SPEED/////
+                ///////////////////////////
+                ///
+                SizedBox(
+                  height: 22,
+                ),
+                Text(
+                  'Upload Speed',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18),
+                ),
+                SpeedGauge(val: val)
               ],
             ),
           ),

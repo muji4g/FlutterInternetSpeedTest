@@ -9,16 +9,16 @@ class InternetspeedProvider extends ChangeNotifier {
   bool _isTest = false;
 
   dynamic _isp = '';
-  dynamic _location = '';
-  String _asn = '';
+
+  dynamic _ip = '';
   String _string = '';
   get speedTest => _speedTest;
   get downloadSpeed => _downloadSpeed;
   get uploadSpeed => _uploadSpeed;
   get isp => _isp;
-  get asn => _asn;
+  get ip => _ip;
   get string => _string;
-  get location => _location;
+
   get speedUnit => _speedUnit;
   get isTestComplete => _isTest;
 
@@ -42,8 +42,8 @@ class InternetspeedProvider extends ChangeNotifier {
       },
       onDefaultServerSelectionDone: (client) {
         _isTest = false;
-        _isp = client?.isp;
-        _location = client?.location;
+        _ip = client?.ip;
+        _isp = client?.isp ?? 'connecting';
       },
       onCompleted: (download, upload) {
         _isTest = false;
@@ -59,7 +59,7 @@ class InternetspeedProvider extends ChangeNotifier {
     _uploadSpeed = 0.0;
     _speedUnit = '--';
     _isp = '';
-    _asn = '';
+    _ip = '';
     _string = '';
     notifyListeners();
   }
